@@ -7,7 +7,7 @@ IAM allows you to create and manage users, groups, and roles. Users represent in
 By using AWS IAM, you can effectively manage and secure access to your AWS resources, ensuring that only authorized individuals have appropriate permissions and actions are logged for accountability and compliance purposes.
 
 # Types of IAM Policies:
-a) ### AWS Managed Policies:
+a) AWS Managed Policies:
 Predefined policies created and managed by AWS.
 Useful for common permissions across AWS services.
 Example: AmazonS3FullAccess, AdministratorAccess.
