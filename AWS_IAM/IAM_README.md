@@ -4,9 +4,19 @@ AWS IAM (Identity and Access Management) is a service provided by Amazon Web Ser
 
 IAM allows you to create and manage users, groups, and roles. Users represent individual people or entities who need access to your AWS resources. Groups are collections of users with similar access requirements, making it easier to manage permissions. Roles are used to grant temporary access to external entities or services.
 
-IAM follows the principle of least privilege, meaning users and entities are given only the necessary permissions required for their tasks, minimizing potential security risks. IAM also provides features like multi-factor authentication (MFA) for added security and an audit trail to track user activity and changes to permissions.
-
 By using AWS IAM, you can effectively manage and secure access to your AWS resources, ensuring that only authorized individuals have appropriate permissions and actions are logged for accountability and compliance purposes.
+
+# Types of IAM Policies:
+a) AWS Managed Policies
+Predefined policies created and managed by AWS.
+Useful for common permissions across AWS services.
+Example: AmazonS3FullAccess, AdministratorAccess.
+
+b) Customer Managed Policies
+Custom policies created by the AWS account owner.
+Provides more control and flexibility.
+
+c) AWS provides AWS Managed Job Function Policies, which are pre-configured IAM policies designed to align with common job roles in an organization. These policies help assign permissions quickly based on typical responsibilities.
 
 ## Components of IAM
 Users: IAM users represent individual people or entities (such as applications or services) that interact with your AWS resources. Each user has a unique name and security credentials (password or access keys) used for authentication and access control.
