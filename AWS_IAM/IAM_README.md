@@ -1,3 +1,4 @@
+<img width="734" alt="Console_output_IAM(boto) (2)" src="https://github.com/user-attachments/assets/30729fb8-5f48-4d29-9068-df57a23a6f01" />
 # IAM
 
 AWS IAM (Identity and Access Management) is a service provided by Amazon Web Services (AWS) that helps you manage access to your AWS resources. It's like a security system for your AWS account.
