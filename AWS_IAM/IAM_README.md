@@ -52,15 +52,24 @@ aws iam create-user --user-name raghav_boto_user
 ```
 Attach the inline policy to the IAM user:
 ```sh
-  aws iam put-user-policy --user-name raghav_boto_user --policy-name s3_limited_policy --policy-document file://s3_limited_policy.json
+aws iam put-user-policy --user-name raghav_iam_cli --policy-name S3ReadOnlyPolicy12 --policy-document file://C:/Users/ragha/Devops_Training/week1/Day1/src/s3_limited_policy.json
 ```
+<img width="724" alt="inlinepolicy_cli" src="https://github.com/user-attachments/assets/1487368b-eb93-4c33-ae51-28de06f1e6b4" />
 
 Verify the policy:
-
 ```sh
 aws iam list-user-policies --user-name raghav_boto_user
 ```
 
+## 4. Attach a Standard AWS Managed Policy
+Attach the `AmazonS3ReadOnlyAccess` managed policy to the IAM user:
+
+```sh
+aws iam attach-user-policy --user-name raghav_boto_user --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+```
+<img width="722" alt="managed_cli" src="https://github.com/user-attachments/assets/7b725976-3d9c-432a-8b60-cd7ed13e3097" />
+
+## 5. IAM Configuration Using Python (Boto3)
 ```python
 import boto3
 import json
