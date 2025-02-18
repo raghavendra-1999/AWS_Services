@@ -32,7 +32,7 @@ c) AWS Managed Job Function Policy: AWS provides AWS Managed Job Function Polici
 ```sh
 aws iam create-user --user-name raghav_boto_user
 ```
-<img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
+
 ## 2. Create and Attach an Inline Policy
 ```sh
 {
@@ -50,6 +50,8 @@ aws iam create-user --user-name raghav_boto_user
 		}
 	]
 }
+
+<img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
 ```
 Attach the inline policy to the IAM user:
 ```sh
