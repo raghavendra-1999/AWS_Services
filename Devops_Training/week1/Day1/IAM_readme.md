@@ -1,4 +1,4 @@
-<img width="734" alt="Console_output_IAM(boto) (2)" src="https://github.com/user-attachments/assets/30729fb8-5f48-4d29-9068-df57a23a6f01" />
+
 # IAM
 
 AWS IAM (Identity and Access Management) is a service provided by Amazon Web Services (AWS) that helps you manage access to your AWS resources. It's like a security system for your AWS account.
@@ -141,6 +141,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+<img width="734" alt="Console_output_IAM(boto) (2)" src="https://github.com/user-attachments/assets/30729fb8-5f48-4d29-9068-df57a23a6f01" />
+
 <img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
 
 <img width="752" alt="console_output_iam(boto)" src="https://github.com/user-attachments/assets/d114f108-7604-4b17-b8b2-63b8c7dd3f8f" />
