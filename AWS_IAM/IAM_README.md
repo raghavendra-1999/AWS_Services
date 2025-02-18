@@ -27,7 +27,7 @@ c) AWS Managed Job Function Policy: AWS provides AWS Managed Job Function Polici
 
   ---
 # IAM Configuration using AWS CLI
-## 1. Create an IAM User
+## 1. Create an IAM User 
 
 ```sh
 aws iam create-user --user-name raghav_boto_user
