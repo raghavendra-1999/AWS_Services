@@ -1,6 +1,6 @@
 # AWS_S3
 
-### **What is Amazon S3?**
+### **What is Amazon S3?** 
 Simple Storage Service is a scalable and secure cloud storage service provided by Amazon Web Services (AWS). It allows you to store and retrieve any amount of data from anywhere on the web.
 
 ### **What are S3 buckets?**
