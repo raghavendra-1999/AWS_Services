@@ -61,5 +61,6 @@ Verify the policy:
 ```sh
 aws iam list-user-policies --user-name raghav_boto_user
 ```
-![Alt text](C:\Users\ragha\Devops_Training\week1\Day1\Images)
+![Alt text]("https://github.com/user-attachments/assets/7e20c67e-3425-41b7-8f6b-a76c995c2b07" />
+
 
