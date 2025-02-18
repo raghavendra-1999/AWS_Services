@@ -54,6 +54,7 @@ aws s3 mb s3://raghavclibucket1
 aws s3 cp /C:\Users\ragha\OneDrive\Desktop\s3_sample_files s3://raghavsfirstbucket1/
 ```
 ![Alt text]<img width="737" alt="s3_cli_bucket" src="https://github.com/user-attachments/assets/32e98a92-a6ca-4b27-ac0a-b7f78144f229" />
+
 ![Alt text]<img width="614" alt="created_s3_cli" src="https://github.com/user-attachments/assets/d877f158-5a36-482c-a598-4253dbf96686" />
 
 ### **S3 Configuration using Python (Boto3)**
@@ -91,6 +92,8 @@ def upload_object(bucket_name, object_name, file_path):
         print(f"Error: {e}")
 ```
 ![Alt text]<img width="505" alt="create_s3_bucket(boto)" src="https://github.com/user-attachments/assets/c6d8b800-8675-470a-a64a-5b95b020a740" />
+
+
 ![Alt text]<img width="748" alt="console_s3_output" src="https://github.com/user-attachments/assets/9d7731ee-30b4-40fa-8622-09d973d38ad6" />
 
 
