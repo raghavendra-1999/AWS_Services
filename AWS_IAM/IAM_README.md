@@ -32,7 +32,7 @@ c) AWS Managed Job Function Policy: AWS provides AWS Managed Job Function Polici
 aws iam create-user --user-name raghav_boto_user
 ```
 
-## 3. Create and Attach an Inline Policy
+## 2. Create and Attach an Inline Policy
 ```sh
 {
 	"Version": "2012-10-17",
@@ -50,7 +50,6 @@ aws iam create-user --user-name raghav_boto_user
 	]
 }
 ```
-
 Attach the inline policy to the IAM user:
 ```sh
   aws iam put-user-policy --user-name raghav_boto_user --policy-name s3_limited_policy --policy-document file://s3_limited_policy.json
@@ -63,4 +62,74 @@ aws iam list-user-policies --user-name raghav_boto_user
 ```
 ![Alt text]("https://github.com/user-attachments/assets/7e20c67e-3425-41b7-8f6b-a76c995c2b07" />
 
+```python
+import boto3
+import json
+# AWS Configuration
+AWS_REGION = "us-east-2"
+USER_NAME = "raghav_boto3"
+INLINE_POLICY_NAME = "S3WriteOnlyPolicy"
+MANAGED_POLICY_ARN = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 
+# Initialize AWS clients
+iam_client = boto3.client("iam", region_name=AWS_REGION)
+
+# Inline policy document
+inline_policy_document = {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+##  IAM Configuration Using Python (Boto3)
+The following Python script automates the IAM user and policy setup using `boto3`:
+# Create IAM user
+def create_iam_user(user_name):
+    try:
+        response = iam_client.create_user(UserName=user_name)
+        print(f"User '{user_name}' created successfully.")
+        return response
+    except iam_client.exceptions.EntityAlreadyExistsException:
+        print(f"User '{user_name}' already exists.")
+        return None
+
+# Attach inline policy to IAM user
+def attach_inline_policy(user_name, policy_name, policy_document):
+    try:
+        iam_client.put_user_policy(
+            UserName=user_name,
+            PolicyName=policy_name,
+            PolicyDocument=json.dumps(policy_document)
+        )
+        print(f" Inline policy '{policy_name}' attached to user '{user_name}' successfully.")
+    except Exception as e:
+        print(f"Error attaching inline policy: {e}")
+
+# Attach managed policy to IAM user
+def attach_managed_policy(user_name, policy_arn):
+    try:
+        iam_client.attach_user_policy(
+            UserName=user_name,
+            PolicyArn=policy_arn
+        )
+        print(f"Managed policy '{policy_arn}' attached to user '{user_name}' successfully.")
+    except Exception as e:
+        print(f"Error attaching managed policy: {e}")
+
+# Main function
+def main():
+    create_iam_user(USER_NAME)
+    attach_inline_policy(USER_NAME, INLINE_POLICY_NAME, inline_policy_document)
+    attach_managed_policy(USER_NAME, MANAGED_POLICY_ARN)
+
+if __name__ == "__main__":
+    main()
+```
+![Alt text]<img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
