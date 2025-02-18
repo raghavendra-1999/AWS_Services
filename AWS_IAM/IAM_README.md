@@ -140,4 +140,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-![Alt text]<img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
+<img width="843" alt="created_iam_user(boto)" src="https://github.com/user-attachments/assets/97c4ba80-7b53-46e7-8aa2-536cd37c9dab" />
+
+<img width="752" alt="console_output_iam(boto)" src="https://github.com/user-attachments/assets/d114f108-7604-4b17-b8b2-63b8c7dd3f8f" />
+
+
