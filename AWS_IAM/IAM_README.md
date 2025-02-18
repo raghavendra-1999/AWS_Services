@@ -19,10 +19,45 @@ Provides more control and flexibility.
 c) AWS Managed Job Function Policy: AWS provides AWS Managed Job Function Policies, which are pre-configured IAM policies designed to align with common job roles in an organization. These policies help assign permissions quickly based on typical responsibilities.
 
 ## Components of IAM
-Users: IAM users represent individual people or entities (such as applications or services) that interact with your AWS resources. Each user has a unique name and security credentials (password or access keys) used for authentication and access control.
+- **Users**: IAM users are individual identities with unique credentials used for authentication and access control in AWS.  
+- **Groups**: IAM groups are collections of users that share permissions, making access management easier.  
+- **Roles**: IAM roles provide temporary access to AWS resources for applications, services, or users.  
+- **Policies**: IAM policies are JSON documents that define and control permissions for users, groups, and roles.
 
-Groups: IAM groups are collections of users with similar access requirements. Instead of managing permissions for each user individually, you can assign permissions to groups, making it easier to manage access control. Users can be added or removed from groups as needed.
+  ---
+# IAM Configuration using AWS CLI
+## 1. Create an IAM User
 
-Roles: IAM roles are used to grant temporary access to AWS resources. Roles are typically used by applications or services that need to access AWS resources on behalf of users or other services. Roles have associated policies that define the permissions and actions allowed for the role.
+```sh
+aws iam create-user --user-name raghav_boto_user
+```
 
-Policies: IAM policies are JSON documents that define permissions. Policies specify the actions that can be performed on AWS resources and the resources to which the actions apply. Policies can be attached to users, groups, or roles to control access. IAM provides both AWS managed policies (predefined policies maintained by AWS) and customer managed policies (policies created and managed by you).
+## 3. Create and Attach an Inline Policy
+```sh
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "VisualEditor0",
+			"Effect": "Deny",
+			"Action": [
+				"s3:GetObject",
+				"s3:ListAllMyBuckets",
+				"s3:ListBucket"
+			],
+			"Resource": "*"
+		}
+	]
+}
+```
+
+Attach the inline policy to the IAM user:
+```sh
+  aws iam put-user-policy --user-name raghav_boto_user --policy-name s3_limited_policy --policy-document file://s3_limited_policy.json
+```
+
+Verify the policy:
+
+```sh
+aws iam list-user-policies --user-name raghav_boto_user
+```
