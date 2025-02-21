@@ -35,7 +35,6 @@ aws rds describe-db-instances --db-instance-identifier mydbinstance --query "DBI
 ```python
 import mysql.connector
 
-# RDS Configuration
 db_host = "mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"  # Your RDS endpoint
 db_user = "admin"  # Master username
 db_password = "Raghav123"  # Your master password
@@ -44,7 +43,6 @@ db_name = "mydbinstance"  # Ensure this database exists, or use `None` first
 try:
     print(f"Attempting to connect to {db_host}...")
 
-    # Connect to MySQL without specifying a database first
     conn = mysql.connector.connect(
         host=db_host,
         user=db_user,
@@ -83,6 +81,7 @@ finally:
 ```
 <img width="761" alt="RDS_Using_cli" src="https://github.com/user-attachments/assets/a62e08a6-5aca-4985-8dcc-0d4a8e356ed9" />
 <img width="624" alt="python_rds" src="https://github.com/user-attachments/assets/baecd658-8093-4b87-8c93-2c3597e6854f" />
+
 **To verify it**
 ```sh
 aws rds describe-db-instances --db-instance-identifier mydbinstance --query "DBInstances[0].Endpoint.Address"
