@@ -22,15 +22,14 @@ Amazon RDS is a fully managed relational database service that simplifies databa
 
 ### **RDS Configuration using AWS CLI**
 #### **1. Create an RDS Instance**
-
 ```sh
-aws rds create-db-instance --db-instance-identifier mydbinstance --db-instance-class db.t3.micro --engine mysql --master-username admin --master-user-password Raghav123 --allocated-storage 20 --backup-retention-period 7 --no-multi-az --region us-east-2
+aws rds create-db-instance --db-instance-identifier raghavcli --db-instance-class db.t3.micro --engine mysql --master-username admin --master-user-password Raghav123 --allocated-storage 20 --backup-retention-period 7 --no-multi-az --region us-east-2
 ```
+**To verify it**
 ```sh
 aws rds describe-db-instances --db-instance-identifier mydbinstance --query "DBInstances[0].Endpoint.Address"
-"mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"
+"raghavcli.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"
 ```
-<img width="761" alt="RDS_Using_cli" src="https://github.com/user-attachments/assets/a62e08a6-5aca-4985-8dcc-0d4a8e356ed9" />
 
 ### **Connecting to RDS using Python**
 ```python
@@ -82,8 +81,13 @@ finally:
     if 'conn' in locals() and conn.is_connected():
         conn.close()
 ```
+<img width="761" alt="RDS_Using_cli" src="https://github.com/user-attachments/assets/a62e08a6-5aca-4985-8dcc-0d4a8e356ed9" />
 <img width="624" alt="python_rds" src="https://github.com/user-attachments/assets/baecd658-8093-4b87-8c93-2c3597e6854f" />
-
+**To verify it**
+```sh
+aws rds describe-db-instances --db-instance-identifier mydbinstance --query "DBInstances[0].Endpoint.Address"
+"mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"
+```
 **RDS Data Insertion**
 ```python
 import mysql.connector
