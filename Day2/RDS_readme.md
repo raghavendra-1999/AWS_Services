@@ -82,3 +82,122 @@ finally:
     if 'conn' in locals() and conn.is_connected():
         conn.close()
 ```
+<img width="624" alt="python_rds" src="https://github.com/user-attachments/assets/baecd658-8093-4b87-8c93-2c3597e6854f" />
+
+**RDS Data Insertion**
+```python
+import mysql.connector
+
+# RDS Configuration
+db_host = "mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"  # Your RDS endpoint
+db_user = "admin"  # Master username
+db_password = "Raghav123"  # Your master password
+db_name = "mydbinstance"  # Ensure this database exists
+
+try:
+    print(f"Connecting to {db_host}...")
+    conn = mysql.connector.connect(
+        host=db_host,
+        user=db_user,
+        password=db_password,
+        database=db_name
+    )
+    cursor = conn.cursor()
+
+    # Create 'employees' table
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS employees (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100),
+        department VARCHAR(50),
+        salary DECIMAL(10,2)
+    );
+    """
+    cursor.execute(create_table_query)
+    print("Table 'employees' created successfully!")
+
+except mysql.connector.Error as err:
+    print(f" Error: {err}")
+
+finally:
+    cursor.close()
+    conn.close()
+```
+<img width="548" alt="table_creation" src="https://github.com/user-attachments/assets/dd2477ca-63c4-4deb-857e-85472a5006e2" />
+
+**Insert Data into RDS**
+```python
+import mysql.connector
+
+db_host = "mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"
+db_user = "admin"
+db_password = "Raghav123"
+db_name = "mydbinstance"
+
+try:
+    print(f"Connecting to {db_host}...")
+    conn = mysql.connector.connect(
+        host=db_host,
+        user=db_user,
+        password=db_password,
+        database=db_name
+    )
+    cursor = conn.cursor()
+
+    # Insert data into 'employees' table
+    insert_query = "INSERT INTO employees (name, department, salary) VALUES (%s, %s, %s)"
+    employees = [
+        ("Alice Johnson", "IT", 75000.00),
+        ("Bob Smith", "Finance", 80000.00),
+        ("Charlie Brown", "HR", 70000.00)
+    ]
+
+    cursor.executemany(insert_query, employees)
+    conn.commit()
+    print(f" {cursor.rowcount} rows inserted into 'employees' table successfully!")
+
+except mysql.connector.Error as err:
+    print(f" Error: {err}")
+
+finally:
+    cursor.close()
+    conn.close()
+```
+<img width="593" alt="Data_Inserted_output" src="https://github.com/user-attachments/assets/3c164fb2-f8c2-4718-8898-4a533324851f" />
+
+**Fetch and Display Data from RDS**
+```python
+import mysql.connector
+
+db_host = "mydbinstance.cjuasg0kyyl8.us-east-2.rds.amazonaws.com"
+db_user = "admin"
+db_password = "Raghav123"
+db_name = "mydbinstance"
+
+try:
+    print(f"Connecting to {db_host}...")
+    conn = mysql.connector.connect(
+        host=db_host,
+        user=db_user,
+        password=db_password,
+        database=db_name
+    )
+    cursor = conn.cursor()
+
+    # Fetch and display data
+    cursor.execute("SELECT * FROM employees;")
+    rows = cursor.fetchall()
+
+    print("\n Data in 'employees' table:")
+    for row in rows:
+        print(row)
+
+except mysql.connector.Error as err:
+    print(f"Error: {err}")
+
+finally:
+    cursor.close()
+    conn.close()
+```
+<img width="587" alt="Fetch_data_output" src="https://github.com/user-attachments/assets/76555ed1-9769-4176-8169-e5d6c91d1edf" />
+
