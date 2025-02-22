@@ -24,3 +24,17 @@ Amazon DynamoDB is a fully managed, serverless, key-value and document database 
 ```sh
 aws dynamodb create-table --table-name Users --attribute-definitions AttributeName=UserId,AttributeType=S AttributeName=Email,AttributeType=S --key-schema AttributeName=UserId,KeyType=HASH AttributeName=Email,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
 ```
+<img width="760" alt="DynamoTable_cli" src="https://github.com/user-attachments/assets/fcf24fb6-2234-4bba-961c-bb0f719d9eb4" />
+#### **2. Inserting values to table**
+```sh
+aws dynamodb put-item --table-name Users --item "{\"UserId\": {\"S\": \"admin\"}, \"Email\": {\"S\": \"rag@gmail.com\"}}"
+```
+<img width="520" alt="puttables_DB" src="https://github.com/user-attachments/assets/a999d5c8-6b9a-4b6e-b944-ba521fb53632" />
+
+#### **3. Get Item from Table**
+```sh
+aws dynamodb get-item --table-name Users --key '{"UserId": {"S": "admin"}, "Email": {"S": "rag@gmail.com"}}'
+```
+<img width="853" alt="Gettable_cli" src="https://github.com/user-attachments/assets/e90c3483-befb-4ff2-b0b6-e6a565a4d43e" />
+
+## Create a DynamoDB Table
