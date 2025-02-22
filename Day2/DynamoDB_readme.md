@@ -113,6 +113,40 @@ insert_data()
 
 <img width="520" alt="Inserting_data_boto" src="https://github.com/user-attachments/assets/94ee66e1-da14-40f5-98bb-b5c3aabae154" />
 
+## **Fetching Data into DynamoDB**
+
+```python
+import boto3
+from botocore.exceptions import ClientError
+
+# Initialize DynamoDB resource
+dynamodb = boto3.resource('dynamodb')
+
+# Reference the 'Users' table (ensure the name is correct without spaces)
+table = dynamodb.Table('raghav_boto_table')  # Correct table name without any extra spaces
+
+# Fetch data (GetItem)
+def fetch_data():
+    try:
+        response = table.get_item(
+            Key={
+                'UserId': 'admin123',
+                'Email': 'raghav@gmail.com'
+            }
+        )
+        if 'Item' in response:
+            print("Data Retrieved:", response['Item'])
+        else:
+            print("Item not found.")
+    except ClientError as e:
+        print("Error fetching item:", e)
+
+# Call the fetch function to check if the item exists
+fetch_data()
+```
+
+<img width="847" alt="fetching_boto" src="https://github.com/user-attachments/assets/971d0f0a-4003-407d-b648-9b8b2c938288" />
+
 
 
 
