@@ -39,4 +39,80 @@ aws dynamodb get-item --table-name Users --key '{"UserId": {"S": "admin"}, "Emai
 ```
 <img width="853" alt="Gettable_cli" src="https://github.com/user-attachments/assets/e90c3483-befb-4ff2-b0b6-e6a565a4d43e" />
 
-## Create a DynamoDB Table
+## Create a DynamoDB Table using boto3
+```python
+import boto3
+
+# Initialize DynamoDB client
+dynamodb = boto3.client('dynamodb', region_name='us-east-2')  # Change to your region
+
+# Create DynamoDB table
+response = dynamodb.create_table(
+    TableName='raghav_boto_table',
+    AttributeDefinitions=[
+        {
+            'AttributeName': 'UserId',
+            'AttributeType': 'S'
+        },
+        {
+            'AttributeName': 'Email',
+            'AttributeType': 'S'
+        }
+    ],
+    KeySchema=[
+        {
+            'AttributeName': 'UserId',
+            'KeyType': 'HASH'  # Partition key
+        },
+        {
+            'AttributeName': 'Email',
+            'KeyType': 'RANGE'  # Sort key
+        }
+    ],
+    ProvisionedThroughput={
+        'ReadCapacityUnits': 5,
+        'WriteCapacityUnits': 5
+    }
+)
+
+print("Table creation started:", response)
+```
+
+<img width="771" alt="dynamotable_boto" src="https://github.com/user-attachments/assets/5300f6a7-e7a8-4301-a1ac-7864cbfd2747" />
+
+## **Inserting Data into DynamoDB**
+
+```python
+import boto3
+from botocore.exceptions import ClientError
+
+# Initialize DynamoDB resource
+dynamodb = boto3.resource('dynamodb')
+
+# Reference the 'Users' table
+table = dynamodb.Table('Users')
+
+# Insert data (PutItem)
+def insert_data():
+    try:
+        response = table.put_item(
+            Item={
+                'UserId': 'admin',  # Primary key
+                'Email': 'rag@gmail.com',  # Range key
+                'Name': 'Raghavendra',  # Additional attribute
+                'Age': 25  # Additional attribute
+            }
+        )
+        print("Insert Successful:", response)
+    except ClientError as e:
+        print("Error inserting item:", e)
+
+# Call the function to insert data
+insert_data()
+```
+
+<img width="520" alt="Inserting_data_boto" src="https://github.com/user-attachments/assets/94ee66e1-da14-40f5-98bb-b5c3aabae154" />
+
+
+
+
