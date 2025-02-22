@@ -1,6 +1,6 @@
-## **Amazon RDS - Relational Database Service**
 
 ## **Amazon DynamoDB - NoSQL Database Service**
+
  **What is Amazon DynamoDB?**
 Amazon DynamoDB is a fully managed, serverless, key-value and document database that offers fast and predictable performance with seamless scalability. It is designed for applications that require low-latency data access at any scale.
 
@@ -112,6 +112,7 @@ insert_data()
 ```
 
 <img width="520" alt="Inserting_data_boto" src="https://github.com/user-attachments/assets/94ee66e1-da14-40f5-98bb-b5c3aabae154" />
+
 
 
 
