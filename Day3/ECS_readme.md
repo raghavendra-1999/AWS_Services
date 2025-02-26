@@ -34,5 +34,33 @@ aws ecs create-cluster --cluster-name raghav_clust_cli
 
 **2. Create an ECS Service Using Boto3**
 
+```python
+import boto3
+from botocore.exceptions import ClientError
+
+# Initialize ECS client with region specified
+ecs_client = boto3.client('ecs', region_name='us-east-2')  # Specify the correct region
+
+# Define service parameters
+cluster_name = 'raghav_clust_boto'
+service_name = 'my-ecs-service'
+task_definition_arn = 'arn:aws:ecs:us-east-2:597088050492:task-definition/my-task:1'  # Correct Task Definition ARN
+desired_count = 2
+
+# Create ECS service with EC2 LaunchType (No Network Configuration needed for EC2)
+try:
+    response = ecs_client.create_service(
+        cluster=cluster_name,
+        serviceName=service_name,
+        taskDefinition=task_definition_arn,
+        desiredCount=desired_count,
+        launchType='EC2',  # Ensure you're using EC2
+        networkConfiguration={}  
+    )
+    print("Service created successfully:", response)
+except ClientError as e:
+    print("Error creating service:", e)
+```
+
 
 
