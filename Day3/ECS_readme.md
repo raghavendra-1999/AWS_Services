@@ -33,34 +33,45 @@ aws ecs create-cluster --cluster-name raghav_clust_cli
 <img width="793" alt="ECS_Cli" src="https://github.com/user-attachments/assets/606bc1de-58ec-43c5-8c6d-dbddfdd670c8" />
 
 **2. Create an ECS Service Using Boto3**
-
+**Also created service inside the cluster**
 ```python
 import boto3
 from botocore.exceptions import ClientError
 
-# Initialize ECS client with region specified
-ecs_client = boto3.client('ecs', region_name='us-east-2')  # Specify the correct region
+# Initialize ECS client
+ecs_client = boto3.client('ecs', region_name='us-east-2')
 
 # Define service parameters
-cluster_name = 'raghav_clust_boto'
+cluster_name = 'raghav_clust_boto1'
 service_name = 'my-ecs-service'
-task_definition_arn = 'arn:aws:ecs:us-east-2:597088050492:task-definition/my-task:1'  # Correct Task Definition ARN
+task_definition_arn = 'arn:aws:ecs:us-east-2:597088050492:task-definition/my-task:1'
 desired_count = 2
 
-# Create ECS service with EC2 LaunchType (No Network Configuration needed for EC2)
+# Network Configuration
+subnets = ['subnet-0d0d28feb617b1351', 'subnet-035553c017a0d8962']
+security_groups = ['sg-05058b68299a124e0']  # Replace with the correct security group
+
+# Create ECS service with Fargate
 try:
     response = ecs_client.create_service(
         cluster=cluster_name,
         serviceName=service_name,
         taskDefinition=task_definition_arn,
         desiredCount=desired_count,
-        launchType='EC2',  # Ensure you're using EC2
-        networkConfiguration={}  
+        launchType='FARGATE',  # Required for awsvpc
+        networkConfiguration={
+            'awsvpcConfiguration': {
+                'subnets': subnets,
+                'securityGroups': security_groups,
+                'assignPublicIp': 'ENABLED'  # Set to 'DISABLED' if not needed
+            }
+        }
     )
     print("Service created successfully:", response)
 except ClientError as e:
-    print("Error creating service:", e)
+    print("Error creating service:", e.response['Error']['Message'])
+
 ```
 
-
+<img width="772" alt="cluster and service_boto" src="https://github.com/user-attachments/assets/56e75646-ef72-4edc-821d-f96cc90ecb0d" />
 
