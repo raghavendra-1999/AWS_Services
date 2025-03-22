@@ -1,4 +1,4 @@
-## **Amazon ECS (Elastic Container Service) - Container Orchestration Service**
+## **Amazon ECS (Elastic Container Service) - Container Orchestration Service **
 
 **What is Amazon ECS?**
 Amazon ECS is a fully managed container orchestration service that enables you to run and scale Docker containers on AWS. ECS makes it easy to deploy, manage, and scale containerized applications by handling the underlying infrastructure. You can run your containers on a cluster of EC2 instances or use the serverless Fargate option.
