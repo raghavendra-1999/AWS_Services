@@ -116,116 +116,73 @@ Scalr is a remote backend solution for Terraform that provides enhanced collabor
 - **Problem**: Manual changes in AWS cause Terraform state drift.
 - **Solution**: Regularly run `terraform plan` and use `terraform import` for manual updates.
 
-modules/iam/main.tf
+## modules/iam/main.tf
 ```hcl
-# Create IAM User
-resource "aws_iam_user" "user" {
-  name = var.iam_user
+provider "aws" {
+  region = var.aws_region
 }
 
-# Create IAM Role
-resource "aws_iam_role" "role" {
-  name = var.iam_role
+resource "aws_iam_user" "my_user" {
+  name = "my-user"
+}
 
-  assume_role_policy = jsonencode({
+resource "aws_iam_policy" "my_policy" {
+  name        = "my-policy"
+  description = "My IAM policy for S3, Redshift, and RDS access"
+  policy      = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
+    Statement = [
+      {
+        Action   = ["s3:*"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = ["redshift:*"]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action   = ["rds:*"]
+        Effect   = "Allow"
+        Resource = "*"
       }
-      Action = "sts:AssumeRole"
-    }]
+    ]
   })
 }
 
-# Create IAM Policy (Full Access)
-resource "aws_iam_policy" "policy" {
-  name        = var.policy_name
-  description = "Full access to all resources"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = "*"
-      Resource = "*"
-    }]
-  })
-}
-
-# Attach Policy to IAM User
-resource "aws_iam_user_policy_attachment" "user_policy_attach" {
-  user       = aws_iam_user.user.name
-  policy_arn = aws_iam_policy.policy.arn
-}
-
-# Attach Policy to IAM Role
-resource "aws_iam_role_policy_attachment" "role_policy_attach" {
-  role       = aws_iam_role.role.name
-  policy_arn = aws_iam_policy.policy.arn
-}
-
-# Attach an Inline Policy to the IAM Role
-resource "aws_iam_role_policy" "inline_policy" {
-  name = var.inline_policy_name
-  role = aws_iam_role.role.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = [
-        "s3:ListBucket",
-        "s3:GetObject"
-      ]
-      Resource = [
-        "arn:aws:s3:::${var.bucket["name"]}",  
-        "arn:aws:s3:::${var.bucket["name"]}/*"
-      ]
-    }]
-  })
+resource "aws_iam_policy_attachment" "my_policy_attachment" {
+  name       = "my-policy-attachment"
+  users      = [aws_iam_user.my_user.name]
+  policy_arn = aws_iam_policy.my_policy.arn
 }
 ```
-modules/iam/outputs.tf
+## modules/iam/outputs.tf
 ```hcl
-output "iam_user" {
-  value = aws_iam_user.user.name
+output "iam_user_name" {
+  description = "IAM user name"
+  value       = aws_iam_user.my_user.name
 }
 
-output "iam_role_arn" {
-  value = aws_iam_role.role.arn
+output "iam_policy_arn" {
+  description = "IAM policy ARN"
+  value       = aws_iam_policy.my_policy.arn
 }
 
-output "policy_arn" {
-  value = aws_iam_policy.policy.arn
-}
-
-output "inline_policy_name" {
-  value = aws_iam_role_policy.inline_policy.name
+```
+## modules/iam/variables.tf
+```hcl
+variable "aws_region" {
+  description = "The AWS region where resources will be created"
+  type        = string
+  default     = "us-east-2"
 }
 ```
-
-Scalr
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/1.png?raw=true)
-Bucket is created 
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/2.png?raw=true) 
-User created
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/3.png?raw=true) 
-File uploaded to bucket
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/4.png?raw=true) 
-Role is created
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/5.png?raw=true) 
-Inline policy is created
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/6.png?raw=true) 
-Declaration of variables
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/7.png?raw=true)  
 
 ## Conclusion
 This demo provides an introduction to using Terraform with AWS S3 and IAM, along with backend best practices. Understanding these components helps in managing infrastructure as code efficiently.
 
 # Terraform RDS and Resdshift
-# Terraform RDS with Scalr
 
 ## Introduction to Terraform RDS
 Amazon Relational Database Service (RDS) is a managed database service that automates administrative tasks like provisioning, scaling, patching, and backups. Terraform is an Infrastructure as Code (IaC) tool that enables users to define and deploy infrastructure resources, including RDS, in a declarative manner. 
@@ -289,137 +246,65 @@ Scalr is a Terraform remote operations and governance platform that enhances Ter
 
 By following these best practices and leveraging Terraform with Scalr, organizations can effectively deploy and manage RDS instances with enhanced security, governance, and scalability.
 
-modules/rds/main.tf
+## modules/rds/main.tf
 
 ```hcl
 
-resource "aws_security_group" "rds_sg" {
-  name        = "${var.db_identifier}-sg"
-  description = "Allow MySQL inbound traffic"
-  vpc_id      = var.vpc_id
+provider "aws" {
+  region = var.aws_region
+}
 
+resource "aws_db_instance" "my_db" {
+  identifier        = "my-db-instance"
+  engine            = "postgres"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 5
+  db_name           = "mydatabase"
+  username          = "admin_user"  # Changed from "admin" to "admin_user"
+  password          = "password"
+  port              = 5432
+  publicly_accessible = true
+  multi_az          = false
+}
+
+resource "aws_security_group" "rds_sg" {
+  name        = "rds-sg"
+  description = "Allow access to RDS"
   ingress {
-    from_port   = 3306
-    to_port     = 3306
+    from_port   = 5432
+    to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.db_identifier}-sg"
-  }
 }
 
-resource "aws_db_instance" "rds_mysql_server" {
-  identifier             = var.db_identifier
-  allocated_storage      = var.db_allocated_storage
-  storage_type           = var.db_storage_type
-  engine                 = "mysql"
-  instance_class         = var.db_instance_class
-  username               = var.db_username
-  password               = var.db_password
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
-  publicly_accessible    = var.db_publicly_accessible
-  skip_final_snapshot    = var.db_skip_final_snapshot
-  multi_az               = var.db_multi_az
-
-  tags = {
-    Name = var.db_identifier
-  }
-}
 
 ```
-modules/rds/outputs.tf
+## modules/rds/outputs.tf
 
 ```hcl
 output "rds_instance_endpoint" {
-  description = "The connection endpoint for the RDS instance"
-  value       = aws_db_instance.rds_mysql_server.endpoint
+  description = "The endpoint of the RDS instance"
+  value       = aws_db_instance.my_db.endpoint
 }
 
-output "rds_instance_arn" {
-  description = "The ARN of the RDS instance"
-  value       = aws_db_instance.rds_mysql_server.arn
-}
-
-output "rds_security_group_id" {
-  description = "The security group ID for the RDS instance"
-  value       = aws_security_group.rds_sg.id
+output "rds_instance_id" {
+  description = "The ID of the RDS instance"
+  value       = aws_db_instance.my_db.id
 }
 
 ```    
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/8.png?raw=true) 
-Declaration of variables
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/11.png?raw=true) 
-
-modules/rds/variables.tf
+## modules/rds/variables.tf
 
 ``` hcl
-variable "db_identifier" {
-  description = "The identifier for the RDS instance"
+variable "aws_region" {
+  description = "The AWS region where resources will be created"
   type        = string
+  default     = "us-east-2"
 }
-
-variable "db_allocated_storage" {
-  description = "The allocated storage in gigabytes"
-  type        = number
-}
-
-variable "db_storage_type" {
-  description = "The storage type (e.g., gp2, io1)"
-  type        = string
-}
-
-
-variable "db_instance_class" {
-  description = "The instance class for the RDS instance"
-  type        = string
-}
-
-variable "db_username" {
-  description = "Username for the database"
-  type        = string
-}
-
-variable "db_password" {
-  description = "Password for the database"
-  type        = string
-  sensitive   = true
-}
-
-variable "vpc_id" {
-  description = "VPC ID where RDS will be created"
-  type        = string
-}
-
-variable "db_publicly_accessible" {
-  description = "Whether the database instance is publicly accessible"
-  type        = bool
-  default     = true
-}
-
-variable "db_skip_final_snapshot" {
-  description = "Determines whether a final DB snapshot is created before the instance is deleted"
-  type        = bool
-  default     = true
-}
-
-variable "db_multi_az" {
-  description = "Specifies if the RDS instance is multi-AZ"
-  type        = bool
-  default     = false
-}
-
 ``` 
     
-# Terraform Redshift with Scalr
+# Terraform Redshift
 
 ## Introduction
 Terraform Redshift enables infrastructure as code (IaC) management of Amazon Redshift, a fully managed data warehouse solution, using HashiCorp Terraform. It allows users to provision, configure, and manage Redshift clusters efficiently. 
@@ -524,28 +409,6 @@ Scalr is a Terraform automation and management platform that enhances Terraform'
 ### 5. Cost-Saving Techniques
 - Enable auto-scaling and reserved instances for savings.
 
-## Live Demo or Code Walkthrough
-### Sample Terraform Configuration
-```hcl
-provider "aws" {
-  region = "us-east-1"
-}
-
-resource "aws_redshift_cluster" "example" {
-  cluster_identifier        = "example-cluster"
-  database_name            = "exampledb"
-  master_username         = "admin"
-  master_password         = "securepassword"
-  node_type               = "dc2.large"
-  cluster_type            = "single-node"
-  skip_final_snapshot     = true
-}
-
-output "redshift_endpoint" {
-  value = aws_redshift_cluster.example.endpoint
-}
-```
-
 ### Steps to Execute
 1. **Run Terraform Commands**:
    ```bash
@@ -555,12 +418,3 @@ output "redshift_endpoint" {
 2. **Validate the Deployment**:
    - Retrieve cluster endpoint using `terraform output redshift_endpoint`.
    - Verify in AWS Redshift console.
-
-Success in scalr
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/9.png?raw=true) 
-
-Cluster creation in cloud
-![My Image](https://github.com/Anusha1126/AWS/blob/main/Week3/Day1/images/10.png?raw=true) 
-
-## Conclusion
-Terraform Redshift with Scalr provides a robust and scalable solution for managing Redshift clusters efficiently. By leveraging Scalr’s governance and remote state management, teams can enforce compliance, optimize costs, and streamline infrastructure provisioning.
