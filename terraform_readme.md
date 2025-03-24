@@ -78,30 +78,6 @@ Terraform follows a **declarative** approach, where the desired end state of inf
 - Users manually define each action required.
 - Example: Writing scripts to manually create, configure, and update an S3 bucket.
 
-
-## What is Scalr?
-Scalr is a remote backend solution for Terraform that provides enhanced collaboration, security, and governance capabilities. It allows teams to manage infrastructure efficiently while enforcing policies and permissions.
-
-## Why Use Scalr?
-- **Terraform Automation**: Automates Terraform runs with policy enforcement.
-- **Role-Based Access Control (RBAC)**: Manages access and permissions for teams.
-- **Multi-Tenant Support**: Allows managing multiple workspaces securely.
-- **State Management**: Stores Terraform state securely with versioning and locking.
-- **Policy as Code**: Enforces security and compliance using Open Policy Agent (OPA).
-
-## Key Components of Scalr
-- **Workspaces**: Isolated environments for managing Terraform configurations.
-- **Access Control**: Role-based permissions for users and teams.
-- **Policy Enforcement**: Uses OPA for compliance and governance.
-- **Remote State Storage**: Secure and versioned Terraform state storage.
-- **Workflow Automation**: Automates Terraform plan and apply operations.
-
-## Components Covered
-- **S3 Bucket**: Used for object storage.
-- **IAM Policies and Roles**: Defines permissions and access control.
-- **Terraform Backend**: Configuring remote state storage in S3 with DynamoDB for state locking.
-- **Scalr Integration**: Managing Terraform infrastructure with Scalr for enhanced security and automation.
-
 ## Common Challenges & Solutions
 
 ### 1. **State Locking Issues**
