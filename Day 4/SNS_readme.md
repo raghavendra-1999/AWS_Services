@@ -30,7 +30,7 @@ The SNS topic distributes the message to all registered subscribers.
 Subscribers, based on the chosen protocols (Email, SMS, HTTP, SQS, Lambda), receive the message.
 
 ## Creating SNS through CLI
-'''sh
+```sh
  aws sns create-topic --name my-sns-cli
  ```
 
