@@ -185,14 +185,7 @@ Resources represent infrastructure components that Terraform manages. In the con
 ### 5. Outputs
 Outputs provide useful information about the infrastructure after deployment. They can include details such as the RDS endpoint, database name, or connection parameters, helping users retrieve key information efficiently.
 
-## Using Scalr with Terraform
-Scalr is a Terraform remote operations and governance platform that enhances Terraform workflows through:
-- **Policy Enforcement:** Ensures compliance with organizational policies by enforcing predefined rules.
-- **Role-Based Access Control (RBAC):** Provides granular access control to different teams and users, ensuring secure infrastructure management.
-- **State Management:** Stores Terraform state remotely, preventing issues related to local state files and improving collaboration.
-- **Cost Controls:** Offers insights and optimizations for infrastructure spending, helping organizations manage costs effectively.
-
-## RDS Deployment with Terraform and Scalr
+## RDS Deployment with Terraform
 ### Step-by-Step Workflow
 1. **Defining Infrastructure:** The first step is to specify the RDS instance configurations, including instance type, database engine, and security settings.
 2. **Initializing the Environment:** Terraform needs to be initialized to download required providers and modules before deployment.
